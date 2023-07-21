@@ -1,13 +1,81 @@
-const gridAllBox = document.getElementsByClassName("grid");
+// const gridAllBox = document.getElementsByClassName("grid");
+// const squareAllBox = document.querySelectorAll(".square");
+// const scoreCard = document.getElementById("score");
+// const leftTime = document.getElementById("time-left");
+// const classMole = document.querySelector(".time-left");
+// const buttonSelect = document.querySelector("button");
+
+// let result = 0;
+// let hitPosition;
+// let currentTime = 60;
+
+// function randamSqures() {
+//     squareAllBox.forEach(event => {
+//         event.classList.remove("mole");
+//     })
+
+//     let randamPosition = squareAllBox[Math.floor(Math.random() * 9)]
+//     randamPosition.classList.add("mole");
+
+//     hitPosition = randamPosition.id;
+// }
+
+
+// squareAllBox.forEach(squear => {
+//     squear.addEventListener("mousedown", () => { 
+//        if(squear.id == hitPosition) {
+//         result++;
+//         scoreCard.innerText = result;
+//         hitPosition = null; 
+//        }
+//     })
+// })
+
+
+// function moveMole() {
+//     let timerId = null;
+//     timerId = setInterval(randamSqures, 1000);
+// }
+
+// buttonSelect.addEventListener("click", () => {
+//     moveMole(true); 
+//     let countDownTimerId = setInterval(countDown, 1000);
+//     function countDown() {
+//         currentTime--;
+//         leftTime.innerText = currentTime;
+
+//         if(currentTime == 0) {
+//             clearInterval(countDownTimerId);
+//             alert("Game Over and Your Result is " + result);
+//             currentTime = 60;
+//             result = 0;
+//             scoreCard.innerText = result;
+//             moveMole(false);
+//         }
+//     }
+// })
+
+
+// IMP
+// moveMole() function ko rokana hai time khatam hone ke baad
+
+
+
+
+
+
+
+
+
 const squareAllBox = document.querySelectorAll(".square");
 const scoreCard = document.getElementById("score");
 const leftTime = document.getElementById("time-left");
-const classMole = document.querySelector(".time-left");
 const buttonSelect = document.querySelector("button");
 
 let result = 0;
 let hitPosition;
 let currentTime = 60;
+let moleMovingInterval;
 
 function randamSqures() {
     squareAllBox.forEach(event => {
@@ -20,41 +88,38 @@ function randamSqures() {
     hitPosition = randamPosition.id;
 }
 
-
 squareAllBox.forEach(squear => {
     squear.addEventListener("mousedown", () => { 
-       if(squear.id == hitPosition) {
-        result++;
-        scoreCard.innerText = result;
-        hitPosition = null; 
-       }
+        if (squear.id == hitPosition) {
+            result++;
+            scoreCard.innerText = result;
+            hitPosition = null; 
+        }
     })
 })
 
-
-function moveMole() {
-    let timerId = null;
-    timerId = setInterval(randamSqures, 1000);
+function moveMole(continueMoving) {
+    if (!continueMoving) {
+        clearInterval(moleMovingInterval);
+        return;
+    }
+    moleMovingInterval = setInterval(randamSqures, 1000);
 }
 
 buttonSelect.addEventListener("click", () => {
-    moveMole(); 
+    moveMole(true); 
     let countDownTimerId = setInterval(countDown, 1000);
     function countDown() {
         currentTime--;
         leftTime.innerText = currentTime;
 
-        if(currentTime == 0) {
+        if (currentTime === 0) {
             clearInterval(countDownTimerId);
             alert("Game Over and Your Result is " + result);
             currentTime = 60;
             result = 0;
             scoreCard.innerText = result;
-            // moveMole(false);
-        }
-    }
-})
-
-
-// IMP
-// moveMole() function ko rokana hai time khatam hone ke baad
+            moveMole(false); // Stop the mole from moving when the game is over.
+        }
+    }
+});
